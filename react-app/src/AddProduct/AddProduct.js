@@ -29,7 +29,7 @@ class AddProduct extends React.Component {
     handleOnChange(event) {
         // const newState = {};
         // newState[event.target.name] = event.target.value;
-        // this.setState(newState);
+        // this.setState(newState);s
         this.setState({
             [event.target.name]: event.target.value,
         });
