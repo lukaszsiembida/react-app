@@ -45,10 +45,17 @@ class Product extends React.Component {
             }
             alert('saved product' + savedProduct.data);
             console.info('saved product: ', savedProduct.data);
+            this.props.onSave({
+                message: `Produkt o id ${savedProduct.data.id} został pomyślnie zapisany`,
+                isError: false
+            });
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            this.props.onSave({
+                message: `Produkt nie został zapisany. Błąd: ${error}`,
+                isError: true
+            })
         }
-        ;
         this.props.history.push('/products');
     }
 
