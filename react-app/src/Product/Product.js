@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Col, FormGroup, Button, Label, Input, Form} from "reactstrap";
 import {withRouter} from "react-router";
 
-class AddProduct extends React.Component {
+class Product extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,6 +12,7 @@ class AddProduct extends React.Component {
             description: '',
             priceNetto: 0,
             vat: 'VAT_8',
+            id: props.match.params.productId,
         }
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -20,16 +21,34 @@ class AddProduct extends React.Component {
         console.info(this.props);
     }
 
+    async componentDidMount() {
+        if (this.state.id) {
+            try {
+                const response = await axios.get(`http://localhost:8080/products/${this.state.id}`);
+                this.setState({...response.data})
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        // if(!this.state.id){}
+    }
+
     async handleOnSubmit(event) {
         // console.log("Submit button pressed");
         event.preventDefault();
         try {
-            const savedProduct = await axios.post('http://localhost:8080/products', {...this.state});
+            let savedProduct;
+            if (this.state.id) {
+                savedProduct = await axios.put('http://localhost:8080/products', this.state);
+            } else {
+                savedProduct = await axios.post('http://localhost:8080/products', this.state);
+            }
             alert('saved product' + savedProduct.data);
             console.info('saved product: ', savedProduct.data);
         } catch (error) {
             console.error(error)
-        };
+        }
+        ;
         this.props.history.push('/products');
     }
 
@@ -99,4 +118,4 @@ class AddProduct extends React.Component {
     }
 }
 
-export default withRouter(AddProduct);
+export default withRouter(Product);

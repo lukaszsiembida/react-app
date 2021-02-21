@@ -4,7 +4,7 @@ import React from 'react';
 import ProductList from "../ProductList/ProductList"
 import {BrowserRouter, Link, Route} from "react-router-dom";
 import Route from "react-router-dom/Route";
-import AddProduct from "../AddProduct/AddProduct";
+import Product from "../Product/Product";
 
 class App extends React.Component {
     render() {
@@ -22,8 +22,7 @@ class App extends React.Component {
                         </li>
                     </ul>
                     <Route exact path={'/products'} component={ProductList}/>
-                    <Route exact path={'/products/add'} component={AddProduct}/>
-                    <Route path={'/products/:productId'} component={AddProduct}/>
+                    <Route exact path={['/products/add', '/products/:productId']} component={Product}/>
                 </div>
             </BrowserRouter>
         );
